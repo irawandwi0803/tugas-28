@@ -1,45 +1,32 @@
-const http = require(`http`);
-const fs = require(`fs`);
+const express = require(`express`);
+const res = require("express/lib/response");
+const req = require("express/lib/request");
+const app = express();
+const port = 3000;
 
-http
-    .createServer((req, res) => {
-        res.writeHead(200, {
-            'Content-Type': `text/html`,
-        });
-
-        const url = req.url;
-        if(url === '/about') {
-            fs.readFile('./about.html', (err, data) => {
-                if(err) {
-                    res.writeHead(404);
-                    res.write('Error: File Not Found')
-                } else {
-                    res.write(data);
-                }
-                res.end();
-            })
-        } else if (url === '/contact') {
-            fs.readFile('./contact.html', (err, data) => {
-                if(err) {
-                    res.writeHead(404);
-                    res.write('Error: File Not Found')
-                } else {
-                    res.write(data);
-                }
-                res.end();
-            })
-        } else {
-            fs.readFile('./index.html', (err, data) => {
-                if(err) {
-                    res.writeHead(404);
-                    res.write('Error: File Not Found')
-                } else {
-                    res.write(data);
-                }
-                res.end();
-            })
-        }
-    })
-    .listen(3000, () => {
-        console.log(`Server is listening on port 3000...`);
+app.get('/', (req, res) => {
+    res.sendFile('./index.html', {
+        root: __dirname
     });
+});
+
+app.get('/about', (req, res) => {
+    res.sendFile('./about.html', { 
+        root: __dirname
+    });
+});
+
+app.get('/contact', (req, res) => {
+    res.sendFile('./contact.html', {
+        root: __dirname
+    });
+});
+
+app.use('/', (req, res) => {
+    res.status(404);
+    res.send('Page not found');
+});
+
+app.listen(port, () => {
+    console.log(`App listening at http://localhost:${port}`)
+});
