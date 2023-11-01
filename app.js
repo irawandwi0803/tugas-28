@@ -23,7 +23,7 @@ app.get('/contact', (req, res) => {
 });
 
 app.get('/product/:id', (req,res) => {
-    res.send(`Product ID : ${req.params.id} <br> Category ID : ${req.query.category}`);
+    res.send(`Product ID : ${req.params.id} <br> Category : ${req.query.category}`);
 });
 
 app.use('/', (req, res) => {
