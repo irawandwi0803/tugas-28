@@ -22,6 +22,10 @@ app.get('/contact', (req, res) => {
     });
 });
 
+app.get('/product/:id', (req,res) => {
+    res.send(`Product ID : ${req.params.id} <br> Category ID : ${req.query.category}`);
+});
+
 app.use('/', (req, res) => {
     res.status(404);
     res.send('Page not found');
