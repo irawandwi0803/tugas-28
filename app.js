@@ -27,9 +27,25 @@ app.get('/contact', (req, res) => {
     //     root: __dirname
     // });
     
-    const contact = contacts.loadContact();
-    res.render('contact', {
-        contacts: contact
+    const contact = [
+        {
+            nama: 'awan',
+            noTelp: '087774529635',
+            email: 'awan@gmail.com'
+        },
+        {
+            nama: 'irawan',
+            noTelp: '085775732075',
+            email: 'irawan@gmail.com'
+        },
+        {
+            nama: 'dwi',
+            noTelp: '085693673537',
+            email: 'dwi@gmail.com'
+        }
+    ]
+    res.render('contact', { 
+        contact
     });
 });
 
