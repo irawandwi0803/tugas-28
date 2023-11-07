@@ -3,23 +3,31 @@ const res = require("express/lib/response");
 const req = require("express/lib/request");
 const app = express();
 const port = 3000;
-const contacts = require('./utility/contacts')
+const contacts = require('./utility/contacts');
+const expressLayouts = require('express-ejs-layouts');
 
 // menggunakan ejs
 app.set('view engine', 'ejs');
+app.use(expressLayouts);
 
 app.get('/', (req, res) => {
     // res.sendFile('./index.html', {
     //     root: __dirname
     // });
-    res.render('index', {tittle: 'Home'});
+    res.render('index', {
+        tittle: 'Home',
+        layout: 'layouts/main-layout',
+    });
 });
 
 app.get('/about', (req, res) => {
     // res.sendFile('./about.html', { 
     //     root: __dirname
     // });
-    res.render('about', {tittle: 'About'});
+    res.render('about', {
+        tittle: 'About',
+        layout: 'layouts/main-layout',
+    });
 });
 
 app.get('/contact', (req, res) => {
@@ -45,7 +53,9 @@ app.get('/contact', (req, res) => {
         }
     ]
     res.render('contact', { 
-        contact, tittle: 'Contact'
+        contact, 
+        tittle: 'Contact',
+        layout: 'layouts/main-layout',
     });
 });
 
