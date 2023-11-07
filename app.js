@@ -12,14 +12,14 @@ app.get('/', (req, res) => {
     // res.sendFile('./index.html', {
     //     root: __dirname
     // });
-    res.render('index');
+    res.render('index', {tittle: 'Home'});
 });
 
 app.get('/about', (req, res) => {
     // res.sendFile('./about.html', { 
     //     root: __dirname
     // });
-    res.render('about');
+    res.render('about', {tittle: 'About'});
 });
 
 app.get('/contact', (req, res) => {
@@ -45,7 +45,7 @@ app.get('/contact', (req, res) => {
         }
     ]
     res.render('contact', { 
-        contact
+        contact, tittle: 'Contact'
     });
 });
 
