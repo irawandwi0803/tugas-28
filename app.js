@@ -8,7 +8,10 @@ const expressLayouts = require('express-ejs-layouts');
 
 // menggunakan ejs
 app.set('view engine', 'ejs');
+// menggunakan layout
 app.use(expressLayouts);
+// build-in middleware
+app.use(express.static('public'));
 
 app.get('/', (req, res) => {
     // res.sendFile('./index.html', {
@@ -35,25 +38,9 @@ app.get('/contact', (req, res) => {
     //     root: __dirname
     // });
     
-    const contact = [
-        {
-            nama: 'awan',
-            noTelp: '087774529635',
-            email: 'awan@gmail.com'
-        },
-        {
-            nama: 'irawan',
-            noTelp: '085775732075',
-            email: 'irawan@gmail.com'
-        },
-        {
-            nama: 'dwi',
-            noTelp: '085693673537',
-            email: 'dwi@gmail.com'
-        }
-    ]
+    const contact = contacts.loadContact();
     res.render('contact', { 
-        contact, 
+        contacts: contact,
         tittle: 'Contact',
         layout: 'layouts/main-layout',
     });
