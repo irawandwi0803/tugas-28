@@ -3,7 +3,7 @@ const res = require("express/lib/response");
 const req = require("express/lib/request");
 const app = express();
 const port = 3000;
-const contacts = require('./utility/contacts');
+const {loadContact, findContact} = require('./utility/contacts');
 const expressLayouts = require('express-ejs-layouts');
 
 // menggunakan ejs
@@ -38,10 +38,19 @@ app.get('/contact', (req, res) => {
     //     root: __dirname
     // });
     
-    const contact = contacts.loadContact();
+    const contacts = loadContact();
     res.render('contact', { 
-        contacts: contact,
+        contacts,
         tittle: 'Contact',
+        layout: 'layouts/main-layout',
+    });
+});
+
+app.get('/contact/:nama', (req, res) => {    
+    const contact = findContact(req.params.nama);
+    res.render('detail', { 
+        contact,
+        tittle: 'Halaman Detail Contact',
         layout: 'layouts/main-layout',
     });
 });

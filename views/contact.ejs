@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mt-3">
     <div class="row">
         <div class="class text-center">
             <h1 class="display-4">Daftar Contact</h1>
@@ -8,7 +8,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Nama</th>
                     <th scope="col">No Telp</th>
-                    <th scope="col">Email</th>
+                    <th scope="col">Aksi</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -17,7 +17,9 @@
                             <th scope="row"><%= i++ %></th>
                             <td><%= contact.nama %></td>
                             <td><%= contact.noTelp %></td>
-                            <td><%= contact.email%></td>
+                            <td>
+                                <a href="/contact/<%= contact.nama %>" class="btn btn-success badge rounded-pill"><i class="bi bi-info-circle"></i> detail </a>
+                            </td>
                         </tr>
                     <% }) %>
                 </tbody>
