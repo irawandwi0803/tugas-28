@@ -17,13 +17,26 @@ const loadContact = () => {
     const file = fs.readFileSync(dataPath, `utf-8`);
     const contacts = JSON.parse(file);
     return contacts;
-}
+};
 
 // cari kontak berdasarkan nama
 const findContact = (nama) => {
     const contacts = loadContact();
     const contact = contacts.find((contact) => contact.nama === nama);
     return contact;
-}
+};
 
-module.exports = { loadContact, findContact }
+// menuliskan file contacts.json dengan data baru
+const saveContacts = (contacts) => {
+    fs.writeFileSync(dataPath, JSON.stringify(contacts))
+};
+
+// menambahkan contact baru
+const addContact = (contact) => {
+    const contacts = loadContact();
+    contacts.push(contact);
+    saveContacts(contacts);
+};
+
+
+module.exports = { loadContact, findContact, addContact }
