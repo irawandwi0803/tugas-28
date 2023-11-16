@@ -3,6 +3,11 @@
         <div class="col-md-8">
             <h1 class="display-4">Daftar Contact</h1>
             <a href="/contact/add" class="btn btn-primary mb-2">Tambah Data</a>
+            
+            <% if (msg.length !== 0) { %>
+                <div class="alert alert-success" role="alert"><%= msg %></div>
+            <% } %>
+
             <div class="class text-center">
                 <table class="table">
                     <thead>
@@ -20,7 +25,9 @@
                                 <td><%= contact.nama %></td>
                                 <td><%= contact.noTelp %></td>
                                 <td>
-                                    <a href="/contact/<%= contact.nama %>" class="btn btn-success badge rounded-pill"><i class="bi bi-info-circle"></i> detail </a>
+                                    <a href="/contact/edit/<%= contact.nama %>" class="btn btn-info badge rounded-pill";">Edit</a>
+                                    <a href="/contact/delete/<%= contact.nama %>" class="btn btn-danger badge rounded-pill" onclick="return confirm('Anda yakin ingin menghapus?');">Delete</a>
+                                    <a href="/contact/<%= contact.nama %>" class="btn btn-success badge rounded-pill"><i class="bi bi-info-circle"></i> Detail</a>
                                 </td>
                             </tr>
                         <% }) %>
