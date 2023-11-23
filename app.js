@@ -9,8 +9,11 @@ const {body, validationResult, check} = require('express-validator');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
+const pool = require('./db')
 
 
+// agar data yg diterima menggunakan req.body berbentuk JSON
+app.use(express.json());
 // menggunakan ejs
 app.set('view engine', 'ejs');
 // third party middleware
@@ -31,6 +34,16 @@ app.use(session ({
 
 app.use(flash());
 
+// konek to database
+pool.connect(err => {
+    if (!err) {
+        console.log('connected')
+    } else (
+        console.log(err.message)
+    )
+})
+
+
 // halaman home
 app.get('/', (req, res) => {
     // res.sendFile('./index.html', {
@@ -41,6 +54,29 @@ app.get('/', (req, res) => {
         layout: 'layouts/main-layout',
     });
 });
+
+// insert data to database
+app.get('/addasync', async (req, res) => {
+    try {
+        const name = 'irawan'
+        const noTelp = '085775732075'
+        const email = 'irawan@gmail.com'
+        const newContact = await pool.query(`insert into tbl_contact values ('${name}','${noTelp}','${email}') returning *`)
+        res.json(newContact)
+    } catch (err) {
+        console.error(err.message)
+    }
+})
+
+app.get('/list', async (req,res) => {
+    try {
+        const contact = await pool.query(`SELECT * FROM tbl_contact`);
+        res.json(contact.rows)
+    } catch (err) {
+        console.log(err.message)
+    }
+})
+
 
 // halaman about
 app.get('/about', (req, res) => {

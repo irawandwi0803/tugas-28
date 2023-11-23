@@ -8,6 +8,9 @@
                 <div class="alert alert-success" role="alert"><%= msg %></div>
             <% } %>
 
+            <% if (contacts.length === 0) { %>
+                <div class="alert alert-warning" role="alert">Data Contact Masih Kosong!</div>
+            <% } else { %>
             <div class="class text-center">
                 <table class="table">
                     <thead>
@@ -34,6 +37,7 @@
                     </tbody>
                 </table>
             </div>
+            <% } %>
         </div>
     </div>    
 </div>
