@@ -1,4 +1,6 @@
 const fs = require(`fs`);
+const pool = require('../db')
+
 
 // cek dan membuat folder jika tidak ada
 const dirPath = `./data`;
@@ -13,9 +15,14 @@ if (!fs.existsSync(dataPath)) {
 };
 
 // load kontak
-const loadContact = () => {
-    const file = fs.readFileSync(dataPath, `utf-8`);
-    const contacts = JSON.parse(file);
+const loadContact = async () => {
+
+    const conn = await pool.connect();
+    const query = `SELECT * FROM tbl_contact`;
+    const result = await conn.query(query);
+    const contacts = result.rows;
+    // const file = fs.readFileSync(dataPath, `utf-8`);
+    // const contacts = JSON.parse(file);
     return contacts;
 };
 
@@ -45,8 +52,8 @@ const cekDuplikat = (nama) => {
 }
 
 // delete contact
-const deleteContact = (nama) => {
-    const contacts = loadContact();
+const deleteContact = async (nama) => {
+    const contacts = await loadContact();
     const filterContacts = contacts.filter(
         (contact) => contact.nama !== nama
     );

@@ -56,17 +56,17 @@ app.get('/', (req, res) => {
 });
 
 // insert data to database
-app.get('/addasync', async (req, res) => {
-    try {
-        const name = 'irawan'
-        const noTelp = '085775732075'
-        const email = 'irawan@gmail.com'
-        const newContact = await pool.query(`insert into tbl_contact values ('${name}','${noTelp}','${email}') returning *`)
-        res.json(newContact)
-    } catch (err) {
-        console.error(err.message)
-    }
-})
+// app.get('/addasync', async (req, res) => {
+//     try {
+//         const name = ''
+//         const noTelp = ''
+//         const email = ''
+//         const newContact = await pool.query(`insert into tbl_contact values ('${name}','${noTelp}','${email}') returning *`)
+//         res.json(newContact)
+//     } catch (err) {
+//         console.error(err.message)
+//     }
+// })
 
 app.get('/list', async (req,res) => {
     try {
@@ -90,18 +90,28 @@ app.get('/about', (req, res) => {
 });
 
 // halaman contact
-app.get('/contact', (req, res) => {
+app.get('/contact', async (req, res) => {
     // res.sendFile('./contact.html', {
     //     root: __dirname
     // });
-    
-    const contacts = loadContact();
-    res.render('contact', { 
-        contacts,
-        tittle: 'Contact',
-        layout: 'layouts/main-layout',
-        msg: req.flash('msg')
-    });
+    try {
+        const listContact = await pool.query(`SELECT * FROM tbl_contact`);
+        const contacts = listContact.rows;
+        res.render('contact', { 
+            contacts,
+            tittle: 'Contact',
+            layout: 'layouts/main-layout',
+            msg: req.flash('msg')
+        });
+    } catch (err) {
+        console.log(err.message)
+        res.render('contact', { 
+            contacts,
+            tittle: 'Contact',
+            layout: 'layouts/main-layout',
+            msg: req.flash('msg')
+        });
+    }
 });
 
 // halaman form add contact
@@ -197,8 +207,10 @@ app.post('/contact/update', [
 
 
 // halaman detail contact
-app.get('/contact/:nama', (req, res) => {    
-    const contact = findContact(req.params.nama);
+app.get('/contact/:nama', async (req, res) => {   
+    const nama = req.params.nama;   
+    const contacts = await loadContact();
+    const contact = contacts.find((contact) => contact.nama === nama);
     res.render('detail', { 
         contact,
         tittle: 'Halaman Detail Contact',
