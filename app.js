@@ -105,12 +105,6 @@ app.get('/contact', async (req, res) => {
         });
     } catch (err) {
         console.log(err.message)
-        res.render('contact', { 
-            contacts,
-            tittle: 'Contact',
-            layout: 'layouts/main-layout',
-            msg: req.flash('msg')
-        });
     }
 });
 
